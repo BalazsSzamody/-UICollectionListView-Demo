@@ -110,17 +110,21 @@ class ViewController: UIViewController {
 
     private func buildFooterRegistration() -> UICollectionView.SupplementaryRegistration<UICollectionViewListCell> {
         UICollectionView.SupplementaryRegistration(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, _, indexPath in
-			var config = supplementaryView.defaultContentConfiguration()
 
 			if let sectionCount = self?.dataSource.snapshot().sectionIdentifiers.count, indexPath.section == sectionCount - 1 {
 				// Add footer for last section
+				var config = UIListContentConfiguration.customFooterConfiguration()
 				config.text = self?.viewModel.footer
+				config.font = .preferredFont(forTextStyle: .footnote)
 				config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 16, trailing: 0)
+				supplementaryView.contentConfiguration = config
 			} else {
+				var config = supplementaryView.defaultContentConfiguration()
 				config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0)
+				supplementaryView.contentConfiguration = config
 			}
 
-            supplementaryView.contentConfiguration = config
+
         }
     }
 
