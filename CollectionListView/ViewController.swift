@@ -45,7 +45,10 @@ class ViewController: UIViewController {
         var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         config.headerMode = .supplementary
         config.footerMode = .supplementary
-        
+		config.backgroundColor = .systemGray5
+		if #available(iOS 14.5, *) {
+			config.separatorConfiguration.color = .systemOrange
+		}
         let layout = UICollectionViewCompositionalLayout.list(using: config)
 
         return UICollectionView.init(frame: .zero, collectionViewLayout: layout)
@@ -75,7 +78,16 @@ class ViewController: UIViewController {
         UICollectionView.CellRegistration { cell, _, itemIdentifier in
             var contentConfig = cell.defaultContentConfiguration()
             contentConfig.text = itemIdentifier.text
+			contentConfig.textProperties.color = .systemOrange
+
+			// Image
+			contentConfig.image = UIImage(systemName: "flame.circle.fill")
+			contentConfig.imageProperties.tintColor = .systemOrange
+
             cell.contentConfiguration = contentConfig
+
+			// Background
+			cell.backgroundConfiguration?.backgroundColor = .systemOrange.withAlphaComponent(0.15)
         }
     }
 
@@ -89,6 +101,9 @@ class ViewController: UIViewController {
 
             var contentConfig = supplementaryView.defaultContentConfiguration()
             contentConfig.text = section.title
+			// Change font
+			contentConfig.textProperties.font = .preferredFont(forTextStyle: .headline)
+
             supplementaryView.contentConfiguration = contentConfig
         }
     }
@@ -100,7 +115,7 @@ class ViewController: UIViewController {
 			if let sectionCount = self?.dataSource.snapshot().sectionIdentifiers.count, indexPath.section == sectionCount - 1 {
 				// Add footer for last section
 				config.text = self?.viewModel.footer
-				config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 16, trailing: 0)
+				config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 24, leading: 0, bottom: 16, trailing: 0)
 			} else {
 				config.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0)
 			}
