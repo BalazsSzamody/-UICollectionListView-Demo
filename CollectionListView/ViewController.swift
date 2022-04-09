@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     // MARK: - CollectionView setup
 
     private func buildCollectionView() -> UICollectionView {
-        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         config.headerMode = .supplementary
         config.footerMode = .supplementary
         
